@@ -37,6 +37,7 @@ deployment:
 dependencies:
   pre:
     - rvm install 2.3.1
+    - gem pristine gem-wrappers --version 1.2.7
   override:
     - yarn install
 test:
