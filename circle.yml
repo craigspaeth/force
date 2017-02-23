@@ -37,8 +37,6 @@ deployment:
       - DEPLOY_ENV=production yarn deploy-assets
       - git push git@heroku.com:force-production.git $CIRCLE_SHA1:refs/heads/master
 dependencies:
-  pre:
-    - gem pristine gem-wrappers --version 1.2.7
   override:
     - yarn install
 test:
