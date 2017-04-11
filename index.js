@@ -9,6 +9,9 @@ const path = require('path')
 const setup = require('./lib/setup').default
 const memoryProfiler = require('./lib/memory_profiler')
 
+// Use Bluebird for performance
+global.Promise = require('bluebird')
+
 // Enable memory profiling
 memoryProfiler()
 
