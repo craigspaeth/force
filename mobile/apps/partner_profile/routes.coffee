@@ -42,7 +42,9 @@ module.exports.fetchArtworksAndRender = (label) ->
           artworkColumns: artworks.groupByColumnsInOrder()
           profile: req.profile
 
-      error: res.backboneError
+      error: ->
+        console.log 'errr', arguments
+        res.backboneError arguments...
 
 module.exports.index = (req, res, next) ->
   return next() unless partner = partnerFromProfile(req)
