@@ -16,6 +16,7 @@ mlf-upper-column-width = ((100% - mlf-upper-column-aside-width) / 4)
     clearfix()
     padding 20px 0
     border-top 1px solid gray-lighter-color
+    position relative
 
   // Upper
   .mlf-upper-column
@@ -72,9 +73,15 @@ mlf-upper-column-width = ((100% - mlf-upper-column-aside-width) / 4)
   #main-layout-footer-external
     float right
     display flex
+    overflow hidden
+    position absolute
+    right 30px
 
   .mlf-social
     display inline-block
+    overflow: hidden
+    svg
+      max-width: 100%
 
   .mlf-icon-snapchat, .mlf-icon-instagram
     width 20px
