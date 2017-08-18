@@ -4,12 +4,11 @@ import sizes from 'desktop/components/stylus_lib/type_sizes.json'
 import ShowItem from './ShowItem.js'
 import EventItem from './EventItem.js'
 import Nav from './Nav.js'
-
-const smallMargin = '20px'
+import margins from 'desktop/components/stylus_lib/margins.json'
 
 const Header = styled.h2`
   ${sizes['garamond']['l-headline']};
-  margin-bottom: ${smallMargin};
+  margin-bottom: ${margins.medium}px;
 `
 
 export default props => {
@@ -23,7 +22,11 @@ export default props => {
     <div id='today-page' className='main-layout-container'>
       <br />
       <Header>Artsy Today</Header>
-      <Nav featuredCities={props.featuredCities} cities={props.cities} />
+      <Nav
+        featuredCities={props.featuredCities}
+        cities={props.cities}
+        currentCity={props.currentCity}
+      />
       <Header>Shows</Header>
       <ul>{partnerShowsList}</ul>
       <Header>Events</Header>

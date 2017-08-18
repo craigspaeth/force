@@ -16,7 +16,11 @@ const ShowItem = styled.li`
   display: inline-block;
   vertical-align: top;
   width: 25%;
-  ${padEveryFourth}
+  ${padEveryFourth};
+`
+
+const Link = styled.a`
+  text-decoration: none;
 `
 
 const Img = styled.div`
@@ -42,10 +46,12 @@ export default (show, i) => {
   const showImage = get(show, 'images.0.thumb.url', '/images/missing_image.png')
   return (
     <ShowItem i={i}>
-      <Img src={showImage} /><br />
-      <PartnerName>{show.partner.name}</PartnerName>
-      {show.name}<br />
-      <DateRange>{show.start_at} - {show.end_at}</DateRange><br />
+      <Link href={show.href}>
+        <Img src={showImage} /><br />
+        <PartnerName>{show.partner.name}</PartnerName>
+        {show.name}<br />
+        <DateRange>{show.start_at} - {show.end_at}</DateRange><br />
+      </Link>
     </ShowItem>
   )
 }

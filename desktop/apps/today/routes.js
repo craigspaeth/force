@@ -9,16 +9,19 @@ import { data as sd } from 'sharify'
 export async function index (req, res, next) {
   try {
     // TODO: Move cities JSON to Metaphysics
+    const { body: cities } = await request.get(
+      `${sd.GEODATA_URL}/partner-cities/cities.json`
+    )
+    const currentCity = cities.filter(
+      city => city.slug === (req.params.citySlug || 'new-york-ny-usa')
+    )[0]
     const [
       { partner_shows: partnerShows },
-      { body: cities },
       { body: featuredCities }
     ] = await Promise.all([
-      metaphysics({ query: ShowQuery() }),
-      request.get(`${sd.GEODATA_URL}/partner-cities/cities.json`),
+      metaphysics({ query: ShowQuery(currentCity) }),
       request.get(`${sd.GEODATA_URL}/partner-cities/featured-cities.json`)
     ])
-
     const layout = renderReactLayout({
       basePath: req.app.get('views'),
       blocks: {
@@ -32,7 +35,8 @@ export async function index (req, res, next) {
       data: {
         partnerShows,
         cities,
-        featuredCities
+        featuredCities,
+        currentCity
       }
     })
 
@@ -42,12 +46,12 @@ export async function index (req, res, next) {
   }
 }
 
-function ShowQuery () {
+function ShowQuery (city) {
   return `{
     partner_shows(
       near: {
-        lat: 40.73
-        lng: -73.9
+        lat: ${city.coords[0]}
+        lng: ${city.coords[1]}
         max_distance: 50
       }
       status: CURRENT
@@ -56,6 +60,7 @@ function ShowQuery () {
     ) {
       id
       name
+      href
       start_at(format: "MMM DD")
       end_at(format: "MMM DD")
       partner {

@@ -36,6 +36,10 @@ routes =
   /shows
   ''': require('../apps/shows/client/index.coffee').init
 
+  '''
+  /today.*
+  ''': require('../apps/today/client.js').default
+
 for paths, init of routes
   for path in paths.split('\n')
     $(init) if location.pathname.match path

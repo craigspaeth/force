@@ -13,7 +13,7 @@ const Nav = styled.nav`
 
 const NavItem = styled.a`
   margin-right: ${margins.small}px;
-  ${props => (props.i === 0 ? `color: ${colors['purple-color']}` : '')};
+  ${props => (props.highlighted ? `color: ${colors['purple-color']}` : '')};
   text-decoration: none;
 `
 
@@ -23,19 +23,33 @@ const CityLabel = styled.label`
   top: 10px;
 `
 
-export default ({ featuredCities, cities }) => {
-  return (
-    <Nav>
-      <div>
-        {featuredCities.map((city, i) => (
-          <NavItem href={`today/${city.slug}`} i={i}>{city.name}</NavItem>
-        ))}
-      </div>
-      <CityLabel className='bordered-select'>
-        <select>
-          {cities.map(city => <option>{city.name}</option>)}
-        </select>
-      </CityLabel>
-    </Nav>
-  )
+export default class App extends React.Component {
+  changeCity (event) {
+    const slug = event.target.value
+    const selectedCity = this.props.cities.filter(city => city.slug === slug)[0]
+    window.location.assign(`/today/${selectedCity.slug}`)
+  }
+  render () {
+    const { featuredCities, cities, currentCity } = this.props
+    return (
+      <Nav>
+        <div>
+          {featuredCities.map((city, i) => (
+            <NavItem
+              href={`/today/${city.slug}`}
+              i={i}
+              highlighted={currentCity.slug === city.slug}
+            >
+              {city.name}
+            </NavItem>
+          ))}
+        </div>
+        <CityLabel className='bordered-select'>
+          <select onChange={this.changeCity.bind(this)}>
+            {cities.map(city => <option value={city.slug}>{city.name}</option>)}
+          </select>
+        </CityLabel>
+      </Nav>
+    )
+  }
 }
